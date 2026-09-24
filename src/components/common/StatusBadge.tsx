@@ -2,7 +2,7 @@ import React from 'react';
 
 interface StatusBadgeProps {
   status: string;
-  variant?: 'green' | 'blue' | 'cyan' | 'amber' | 'red' | 'purple' | 'gray';
+  variant?: 'green' | 'blue' | 'cyan' | 'amber' | 'red' | 'gray';
   pulse?: boolean;
   label?: string;
   className?: string;
@@ -19,53 +19,40 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
 }) => {
   const variantStyles = {
     green: {
-      bg: 'bg-emerald-950/60',
-      border: 'border-emerald-500/40',
-      text: 'text-emerald-400',
-      dot: 'bg-emerald-400',
-      glow: 'shadow-[0_0_8px_rgba(52,211,153,0.4)]',
+      bg: 'bg-emerald-50',
+      border: 'border-emerald-200',
+      text: 'text-emerald-700',
+      dot: 'bg-emerald-600',
     },
     blue: {
-      bg: 'bg-blue-950/60',
-      border: 'border-blue-500/40',
-      text: 'text-blue-400',
-      dot: 'bg-blue-400',
-      glow: 'shadow-[0_0_8px_rgba(96,165,250,0.4)]',
+      bg: 'bg-blue-50',
+      border: 'border-blue-200',
+      text: 'text-blue-700',
+      dot: 'bg-blue-600',
     },
     cyan: {
-      bg: 'bg-cyan-950/60',
-      border: 'border-cyan-500/40',
-      text: 'text-cyan-400',
-      dot: 'bg-cyan-400',
-      glow: 'shadow-[0_0_8px_rgba(34,211,238,0.4)]',
+      bg: 'bg-sky-50',
+      border: 'border-sky-200',
+      text: 'text-sky-700',
+      dot: 'bg-sky-600',
     },
     amber: {
-      bg: 'bg-amber-950/60',
-      border: 'border-amber-500/40',
-      text: 'text-amber-400',
-      dot: 'bg-amber-400',
-      glow: 'shadow-[0_0_8px_rgba(251,191,36,0.4)]',
+      bg: 'bg-amber-50',
+      border: 'border-amber-200',
+      text: 'text-amber-800',
+      dot: 'bg-amber-500',
     },
     red: {
-      bg: 'bg-rose-950/60',
-      border: 'border-rose-500/40',
-      text: 'text-rose-400',
-      dot: 'bg-rose-400',
-      glow: 'shadow-[0_0_8px_rgba(244,63,94,0.4)]',
-    },
-    purple: {
-      bg: 'bg-purple-950/60',
-      border: 'border-purple-500/40',
-      text: 'text-purple-400',
-      dot: 'bg-purple-400',
-      glow: 'shadow-[0_0_8px_rgba(192,132,252,0.4)]',
+      bg: 'bg-rose-50',
+      border: 'border-rose-200',
+      text: 'text-rose-700',
+      dot: 'bg-rose-600',
     },
     gray: {
-      bg: 'bg-slate-900/70',
-      border: 'border-slate-700/50',
-      text: 'text-slate-400',
+      bg: 'bg-slate-100',
+      border: 'border-slate-200',
+      text: 'text-slate-600',
       dot: 'bg-slate-400',
-      glow: '',
     },
   }[variant];
 
@@ -73,20 +60,20 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
 
   return (
     <div
-      className={`inline-flex items-center gap-1.5 font-mono-tech font-medium rounded border ${variantStyles.bg} ${variantStyles.border} ${variantStyles.text} ${sizeClasses} ${className}`}
+      className={`inline-flex items-center gap-1.5 font-sans font-medium rounded border ${variantStyles.bg} ${variantStyles.border} ${variantStyles.text} ${sizeClasses} ${className}`}
     >
-      <span className="relative flex h-2 w-2">
+      <span className="relative flex h-1.5 w-1.5">
         {pulse && (
           <span
             className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${variantStyles.dot}`}
           />
         )}
         <span
-          className={`relative inline-flex rounded-full h-2 w-2 ${variantStyles.dot} ${variantStyles.glow}`}
+          className={`relative inline-flex rounded-full h-1.5 w-1.5 ${variantStyles.dot}`}
         />
       </span>
-      {label && <span className="text-slate-400 font-sans text-[11px] uppercase mr-0.5">{label}:</span>}
-      <span className="tracking-wide uppercase">{status}</span>
+      {label && <span className="text-slate-500 font-sans text-[11px] mr-0.5">{label}:</span>}
+      <span className="tracking-wide font-mono-tech uppercase font-semibold text-[11px]">{status}</span>
     </div>
   );
 };

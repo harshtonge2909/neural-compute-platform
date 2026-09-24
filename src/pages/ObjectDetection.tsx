@@ -116,25 +116,25 @@ export const ObjectDetection: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       {/* Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#D9E2EC]">
         <div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-100 font-mono-tech tracking-tight">
-              OBJECT DETECTION
+            <h1 className="text-xl sm:text-2xl font-bold text-[#172033] tracking-tight">
+              Object Detection
             </h1>
-            <span className="text-xs px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-mono-tech font-bold">
-              FPGA SYSTOLIC PIPELINE
+            <span className="text-xs px-2 py-0.5 rounded bg-blue-50 border border-blue-200 text-blue-700 font-medium">
+              FPGA Systolic Pipeline
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[#526174] mt-1">
             FPGA-Accelerated Neural Network Inference with Bounding Box Localization
           </p>
         </div>
 
-        <div className="text-xs font-mono-tech text-slate-400">
-          Current Image: <strong className="text-slate-200">{currentSample.name}</strong>
+        <div className="text-xs text-[#526174]">
+          Current Feed: <strong className="text-[#172033] font-medium">{currentSample.name}</strong>
         </div>
       </div>
 

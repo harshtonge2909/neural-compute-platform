@@ -2,85 +2,84 @@
 
 @layer base {
   :root {
-    --bg-main: #070a12;
-    --bg-card: #0d121f;
-    --bg-card-hover: #12192c;
-    --border-subtle: #1e293b;
-    --border-glow: #0284c7;
-    --cyan-accent: #00f0ff;
-    --electric-blue: #38bdf8;
+    --bg-main: #F4F7FA;
+    --bg-card: #FFFFFF;
+    --bg-secondary: #F8FAFC;
+    --border-color: #D9E2EC;
+    --text-primary: #172033;
+    --text-secondary: #526174;
+    --text-muted: #718096;
+    --accent-primary: #0B8FB3;
+    --accent-secondary: #2563EB;
+    --success: #059669;
+    --warning: #D97706;
+    --error: #DC2626;
   }
 
   body {
-    background-color: #070a12;
-    color: #e2e8f0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #F4F7FA;
+    color: #172033;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
   }
 }
 
-/* Monospace font for telemetry, metrics, and logs */
+/* Monospace font for telemetry, metrics, and logs only */
 .font-mono-tech {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  letter-spacing: -0.02em;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  letter-spacing: -0.01em;
 }
 
-/* Technical Card Glows */
+/* Clean Engineering Cards */
 .tech-card {
-  background-color: #0d121f;
-  border: 1px solid #1e293b;
-  position: relative;
-  transition: all 0.2s ease-in-out;
+  background-color: #FFFFFF;
+  border: 1px solid #D9E2EC;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .tech-card:hover {
-  border-color: #334155;
+  border-color: #CBD5E1;
 }
 
-.tech-card-glow {
-  background-color: #0d121f;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.08);
+.tech-card-active {
+  background-color: #EFF6FF !important;
+  border-color: #3B82F6 !important;
 }
 
-.tech-badge-glow {
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
-}
-
-.tech-active-block {
-  border-color: #38bdf8 !important;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
-}
-
-/* Custom technical scrollbar */
+/* Subtle clean scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #F1F5F9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #CBD5E1;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #38bdf8;
+  background: #94A3B8;
 }
 
-/* Data Flow Animation */
+/* Data Flow Animation (Clean Blue Packet) */
 @keyframes flowRight {
   0% {
     transform: translateX(-100%);
     opacity: 0;
   }
-  50% {
-    opacity: 1;
+  30% {
+    opacity: 0.8;
+  }
+  70% {
+    opacity: 0.8;
   }
   100% {
     transform: translateX(200%);
@@ -89,29 +88,11 @@
 }
 
 .animate-flow-packet {
-  animation: flowRight 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: flowRight 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-/* Pulse Glow */
-@keyframes subtlePulse {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.04);
-  }
-}
-
-.animate-subtle-pulse {
-  animation: subtlePulse 2.4s ease-in-out infinite;
-}
-
-/* Terminal scanline effect */
-.terminal-grid {
-  background-size: 20px 20px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+/* Terminal background (Clean deep slate #172033) */
+.terminal-panel {
+  background-color: #172033;
+  color: #DCE6F0;
 }

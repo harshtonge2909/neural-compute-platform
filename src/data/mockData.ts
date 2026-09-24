@@ -513,7 +513,7 @@ export const ARCHITECTURE_NODES: SystemArchitectureNode[] = [
     layer: 'Application',
     shortDesc: 'Object Detection & Tiny LLM user-facing workloads and pipelines',
     badge: 'USER SPACE',
-    color: '#38bdf8',
+    color: '#2563eb',
     details: {
       purpose: 'Hosts edge machine learning tasks including live bounding-box object detection (Tiny YOLO) and interactive quantized transformer inference (Tiny LLM).',
       responsibilities: [
@@ -533,7 +533,7 @@ export const ARCHITECTURE_NODES: SystemArchitectureNode[] = [
     layer: 'Runtime',
     shortDesc: 'REST and WebSocket endpoint bridge between client and embedded runtime',
     badge: 'API LAYER',
-    color: '#0ea5e9',
+    color: '#0284c7',
     details: {
       purpose: 'Exposes standardized endpoints (/api/detection/infer, /api/llm/generate, /api/system/status) isolating the UI from low-level driver details.',
       responsibilities: [
@@ -553,7 +553,7 @@ export const ARCHITECTURE_NODES: SystemArchitectureNode[] = [
     layer: 'Runtime',
     shortDesc: 'Model quantization, graph parsing, tensor scheduling, and fallback manager',
     badge: 'CORE ENGINE',
-    color: '#6366f1',
+    color: '#1d4ed8',
     details: {
       purpose: 'The central software engine running on the RISC-V host. Parses quantized ONNX / FlatBuffer models, manages tensor memory buffers, and schedules operator execution.',
       responsibilities: [
@@ -573,7 +573,7 @@ export const ARCHITECTURE_NODES: SystemArchitectureNode[] = [
     layer: 'Communication',
     shortDesc: 'Abstracted command dispatch, DMA synchronization, and protocol transport',
     badge: 'PROTOCOL STACK',
-    color: '#8b5cf6',
+    color: '#0f766e',
     details: {
       purpose: 'Provides a hardware-agnostic transport layer between the host Linux OS and the FPGA. Can run over SPI, AXI-Stream, or PCIe without modifying upper software layers.',
       responsibilities: [
@@ -593,7 +593,7 @@ export const ARCHITECTURE_NODES: SystemArchitectureNode[] = [
     layer: 'Host',
     shortDesc: 'StarFive JH7110 Quad-Core RISC-V RV64GC (1.5 GHz) running Linux',
     badge: 'RISC-V HOST',
-    color: '#ec4899',
+    color: '#475569',
     details: {
       purpose: 'The central physical embedded single-board computer orchestrating the overall platform, hosting Linux, and managing peripheral devices.',
       responsibilities: [
@@ -613,7 +613,7 @@ export const ARCHITECTURE_NODES: SystemArchitectureNode[] = [
     layer: 'Accelerator',
     shortDesc: 'Custom FPGA hardware accelerator with 64x64 Systolic MAC Array & On-Chip SRAM',
     badge: 'CUSTOM SILICON',
-    color: '#10b981',
+    color: '#059669',
     details: {
       purpose: 'The dedicated digital logic AI accelerator synthesised on FPGA. Delivers orders-of-magnitude higher energy efficiency than CPU compute by exploiting spatial parallelism.',
       responsibilities: [

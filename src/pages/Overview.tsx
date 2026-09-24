@@ -20,33 +20,33 @@ export const Overview: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Page Title & Subtitle */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-[#D9E2EC]">
         <div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-100 font-mono-tech tracking-tight">
-              NEURAL COMPUTE PLATFORM
+            <h1 className="text-xl sm:text-2xl font-bold text-[#172033] font-sans tracking-tight">
+              Neural Compute Platform
             </h1>
-            <span className="text-xs px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono-tech font-bold">
-              STARFIVE JH7110 + NCE
+            <span className="text-xs px-2 py-0.5 rounded bg-blue-50 border border-blue-200 text-blue-700 font-sans font-medium">
+              StarFive JH7110 + NCE
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[#526174] mt-1 font-sans">
             RISC-V + FPGA Accelerated Edge AI Computing Architecture
           </p>
         </div>
 
         {/* Quick Launch Buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={() => setActivePage('detection')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-mono-tech text-xs font-semibold transition-all shadow-[0_0_12px_rgba(6,182,212,0.3)] cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-sans text-xs font-semibold transition-all shadow-xs cursor-pointer"
           >
             <span>Launch Object Detection</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => setActivePage('llm')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-mono-tech text-xs transition-colors border border-slate-700 cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white hover:bg-slate-50 text-[#172033] font-sans text-xs font-semibold transition-colors border border-[#D9E2EC] shadow-xs cursor-pointer"
           >
             <span>Launch Tiny LLM</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -60,11 +60,9 @@ export const Overview: React.FC = () => {
           title="Inference Latency"
           value="18.4"
           unit="ms"
-          icon={<Clock className="w-4 h-4 text-cyan-400" />}
-          trend={{ value: '-87.1%', direction: 'down', isPositive: true }}
+          icon={<Clock className="w-4 h-4 text-blue-600" />}
+          trend={{ value: '↓ 87.1%', direction: 'down', isPositive: true }}
           subtitle="vs 142.6 ms CPU"
-          accentColor="cyan"
-          glow={true}
           isSimulated={hardwareMode === 'simulation'}
         />
 
@@ -72,11 +70,9 @@ export const Overview: React.FC = () => {
           title="Throughput"
           value="54.3"
           unit="FPS"
-          icon={<Activity className="w-4 h-4 text-emerald-400" />}
-          trend={{ value: '+7.7x', direction: 'up', isPositive: true }}
-          subtitle="Real-time 60Hz Target"
-          accentColor="green"
-          glow={true}
+          icon={<Activity className="w-4 h-4 text-blue-600" />}
+          trend={{ value: '↑ 7.7x', direction: 'up', isPositive: true }}
+          subtitle="Real-time target"
           isSimulated={hardwareMode === 'simulation'}
         />
 
@@ -84,10 +80,9 @@ export const Overview: React.FC = () => {
           title="CPU Utilization"
           value="29"
           unit="%"
-          icon={<Cpu className="w-4 h-4 text-amber-400" />}
-          trend={{ value: '-65.1%', direction: 'down', isPositive: true }}
-          subtitle="RISC-V Host Relief"
-          accentColor="amber"
+          icon={<Cpu className="w-4 h-4 text-blue-600" />}
+          trend={{ value: '↓ 65.1%', direction: 'down', isPositive: true }}
+          subtitle="Host CPU relief"
           isSimulated={hardwareMode === 'simulation'}
         />
 
@@ -95,10 +90,9 @@ export const Overview: React.FC = () => {
           title="FPGA Utilization"
           value={nceStatus.acceleratorUtilization}
           unit="%"
-          icon={<Zap className="w-4 h-4 text-cyan-400" />}
+          icon={<Zap className="w-4 h-4 text-blue-600" />}
           trend={{ value: 'Optimal', direction: 'neutral' }}
-          subtitle="64x64 Systolic Array"
-          accentColor="cyan"
+          subtitle="64×64 Systolic Array"
           isSimulated={hardwareMode === 'simulation'}
         />
 
@@ -106,10 +100,9 @@ export const Overview: React.FC = () => {
           title="Board Power"
           value={nceStatus.powerEstimateWatts}
           unit="W"
-          icon={<Zap className="w-4 h-4 text-purple-400" />}
-          trend={{ value: '-62%', direction: 'down', isPositive: true }}
-          subtitle="Host + FPGA Combined"
-          accentColor="purple"
+          icon={<Zap className="w-4 h-4 text-blue-600" />}
+          trend={{ value: '↓ 62%', direction: 'down', isPositive: true }}
+          subtitle="Host + FPGA power"
           isSimulated={hardwareMode === 'simulation'}
         />
 
@@ -117,10 +110,9 @@ export const Overview: React.FC = () => {
           title="Energy / Inference"
           value="0.088"
           unit="J"
-          icon={<BatteryCharging className="w-4 h-4 text-emerald-400" />}
-          trend={{ value: '-85.8%', direction: 'down', isPositive: true }}
+          icon={<BatteryCharging className="w-4 h-4 text-blue-600" />}
+          trend={{ value: '↓ 85.8%', direction: 'down', isPositive: true }}
           subtitle="0.620 J CPU baseline"
-          accentColor="green"
           isSimulated={hardwareMode === 'simulation'}
         />
       </div>

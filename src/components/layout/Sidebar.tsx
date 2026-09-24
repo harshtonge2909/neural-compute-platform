@@ -7,7 +7,6 @@ import {
   BarChart3, 
   Network, 
   X,
-  Radio
 } from 'lucide-react';
 import { NavPage, useSystem } from '../../context/SystemContext';
 
@@ -62,67 +61,66 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {isOpen && (
         <div
           onClick={onClose}
-          className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 lg:hidden"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 lg:hidden"
         />
       )}
 
       {/* Sidebar container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 w-64 bg-[#090d16] border-r border-slate-800/90 flex flex-col transition-transform duration-200 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-40 w-64 bg-white border-r border-[#D9E2EC] flex flex-col transition-transform duration-200 ease-in-out lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Top Header in Sidebar */}
-        <div className="h-16 px-4 border-b border-slate-800/80 flex items-center justify-between">
+        <div className="h-16 px-5 border-b border-[#D9E2EC] flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-mono-tech font-extrabold text-base text-cyan-400 tracking-wider">
+              <span className="font-mono-tech font-extrabold text-base text-blue-700 tracking-wider">
                 NCA
               </span>
-              <span className="text-[11px] text-slate-300 font-semibold tracking-wide">
-                ENGINEERING
+              <span className="text-xs text-[#172033] font-bold tracking-wide font-sans">
+                PLATFORM
               </span>
             </div>
-            <p className="text-[10px] text-slate-400 font-mono-tech leading-none mt-0.5">
+            <p className="text-[11px] text-[#526174] font-sans leading-none mt-0.5">
               Neural Computing Architecture
             </p>
           </div>
 
           <button
             onClick={onClose}
-            className="lg:hidden p-1.5 rounded text-slate-400 hover:text-slate-200"
+            className="lg:hidden p-1.5 rounded text-slate-400 hover:text-slate-700 cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* System Online Status Indicator */}
-        <div className="px-4 py-3 border-b border-slate-800/60 bg-slate-950/40">
-          <div className="flex items-center justify-between text-xs font-mono-tech">
+        <div className="px-5 py-3 border-b border-[#D9E2EC] bg-[#F8FAFC]">
+          <div className="flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+              <span className="flex h-2 w-2 relative">
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
               </span>
-              <span className="font-semibold text-emerald-400 tracking-wider text-[11px]">
-                SYSTEM ONLINE
+              <span className="font-semibold text-emerald-800 tracking-wide text-[11px] font-sans">
+                System Online
               </span>
             </div>
 
-            <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400">
-              {hardwareMode === 'hardware' ? 'REAL HW' : 'SIMULATED'}
+            <span className="text-[10px] font-sans font-medium px-1.5 py-0.5 rounded bg-white border border-[#D9E2EC] text-[#526174]">
+              {hardwareMode === 'hardware' ? 'Physical HW' : 'Simulated'}
             </span>
           </div>
-          <div className="text-[10px] font-mono-tech text-slate-400 mt-1 flex justify-between">
-            <span>HOST: Milk-V Mars</span>
-            <span>RV64GC @ 1.5GHz</span>
+          <div className="text-[11px] font-sans text-[#718096] mt-1 flex justify-between">
+            <span>Host: Milk-V Mars</span>
+            <span className="font-mono-tech">1.5 GHz RV64GC</span>
           </div>
         </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
-          <div className="px-3 pb-2 text-[10px] font-mono-tech uppercase tracking-wider text-slate-400 font-semibold">
-            CONTROL CONSOLE
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+          <div className="px-3 pb-2 text-[11px] font-sans uppercase tracking-wider text-[#718096] font-semibold">
+            Navigation
           </div>
           {navItems.map((item) => {
             const isActive = activePage === item.id;
@@ -133,18 +131,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   setActivePage(item.id);
                   onClose();
                 }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium font-mono-tech transition-all text-left group ${
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md text-xs font-medium font-sans transition-all text-left cursor-pointer ${
                   isActive
-                    ? 'bg-cyan-950/70 border border-cyan-500/50 text-cyan-300 tech-badge-glow'
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/80 border border-transparent'
+                    ? 'bg-blue-50/80 text-blue-700 font-semibold border-l-3 border-blue-600 shadow-xs'
+                    : 'text-[#526174] hover:text-[#172033] hover:bg-slate-50 border-l-3 border-transparent'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <span
-                    className={`transition-colors ${
-                      isActive ? 'text-cyan-400' : 'text-slate-400 group-hover:text-cyan-300'
-                    }`}
-                  >
+                  <span className={isActive ? 'text-blue-600' : 'text-slate-400'}>
                     {item.icon}
                   </span>
                   <span>{item.label}</span>
@@ -152,10 +146,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
                 {item.badge && (
                   <span
-                    className={`text-[9px] px-1.5 py-0.2 rounded border font-mono-tech tracking-wide ${
+                    className={`text-[10px] px-1.5 py-0.2 rounded border font-mono-tech ${
                       isActive
-                        ? 'bg-cyan-500/20 border-cyan-400/40 text-cyan-300'
-                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                        ? 'bg-blue-100/60 border-blue-200 text-blue-800'
+                        : 'bg-slate-100 border-slate-200 text-slate-500'
                     }`}
                   >
                     {item.badge}
@@ -167,16 +161,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </nav>
 
         {/* Footer Hardware Info */}
-        <div className="p-3.5 border-t border-slate-800/80 bg-slate-950/60 font-mono-tech text-[10px] space-y-1">
-          <div className="flex items-center justify-between text-slate-400">
-            <span>ENGINE: NCE v2.4</span>
-            <span className="text-cyan-400">64x64 MAC</span>
+        <div className="p-4 border-t border-[#D9E2EC] bg-[#F8FAFC] font-sans text-xs space-y-1">
+          <div className="flex items-center justify-between text-[#526174]">
+            <span>Engine:</span>
+            <span className="font-mono-tech font-semibold text-[#172033]">NCE v2.4 (64×64 MAC)</span>
           </div>
-          <div className="flex items-center justify-between text-slate-400">
-            <span>MEM: 1024 KB BRAM</span>
-            <span className="text-emerald-400">INT8 QUANT</span>
+          <div className="flex items-center justify-between text-[#526174]">
+            <span>On-Chip SRAM:</span>
+            <span className="font-mono-tech font-semibold text-[#172033]">1024 KB BRAM</span>
           </div>
-          <div className="pt-2 mt-2 border-t border-slate-800/60 text-center text-slate-400 text-[9px]">
+          <div className="pt-2 mt-2 border-t border-[#D9E2EC] text-center text-[#718096] text-[10px]">
             Final Year Engineering Project 2026
           </div>
         </div>

@@ -58,7 +58,6 @@ export const Benchmarks: React.FC = () => {
 
         addLog('PERF', 'PERF', `Benchmark completed: ${selectedWorkload} CPU Latency=${cpuRes.latencyMs}ms vs FPGA Latency=${fpgaRes.latencyMs}ms (${fpgaRes.speedupFactor}x Speedup)`);
       } else {
-        // Single backend run
         if (selectedBackend === 'fpga') {
           triggerNCEPulse();
         }
@@ -88,25 +87,25 @@ export const Benchmarks: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       {/* Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#D9E2EC]">
         <div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-100 font-mono-tech tracking-tight">
-              PERFORMANCE BENCHMARK
+            <h1 className="text-xl sm:text-2xl font-bold text-[#172033] tracking-tight">
+              Performance Benchmark
             </h1>
-            <span className="text-xs px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-mono-tech font-bold">
-              EMPIRICAL VALIDATION
+            <span className="text-xs px-2 py-0.5 rounded bg-blue-50 border border-blue-200 text-blue-700 font-medium">
+              Empirical Validation
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[#526174] mt-1">
             Comparative Evaluation: CPU-Only Baseline vs CPU + FPGA Accelerated Execution
           </p>
         </div>
 
-        <div className="text-xs font-mono-tech text-slate-400">
-          Target Platform: <strong className="text-slate-200">Milk-V Mars + NCE</strong>
+        <div className="text-xs text-[#526174]">
+          Target Platform: <strong className="text-[#172033] font-medium">Milk-V Mars + NCE</strong>
         </div>
       </div>
 

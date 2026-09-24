@@ -8,23 +8,23 @@ interface ArchitectureDetailsProps {
 
 export const ArchitectureDetails: React.FC<ArchitectureDetailsProps> = ({ node }) => {
   return (
-    <div className="tech-card rounded-xl p-5 border border-slate-800 space-y-4 font-mono-tech">
+    <div className="bg-white rounded-xl p-5 border border-[#D9E2EC] shadow-sm space-y-4">
       {/* Title & Badge */}
-      <div className="flex items-start justify-between pb-3 border-b border-slate-800/80">
+      <div className="flex items-start justify-between pb-3 border-b border-[#D9E2EC]">
         <div>
-          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
+          <span className="text-[10px] font-semibold text-[#526174] uppercase tracking-wider block font-mono">
             SELECTED SUBSYSTEM SPECIFICATION
           </span>
-          <h3 className="font-bold text-base text-slate-100 mt-0.5">
+          <h3 className="font-bold text-base text-[#172033] mt-0.5">
             {node.name}
           </h3>
         </div>
         <span
-          className="text-xs px-2 py-0.5 rounded border uppercase font-bold"
+          className="text-xs px-2 py-0.5 rounded border uppercase font-mono font-semibold"
           style={{
             color: node.color,
-            borderColor: `${node.color}50`,
-            backgroundColor: `${node.color}15`,
+            borderColor: `${node.color}40`,
+            backgroundColor: `${node.color}12`,
           }}
         >
           {node.layer}
@@ -33,23 +33,23 @@ export const ArchitectureDetails: React.FC<ArchitectureDetailsProps> = ({ node }
 
       {/* Purpose */}
       <div>
-        <span className="text-[11px] text-slate-400 uppercase tracking-wider block mb-1">
+        <span className="text-[11px] font-semibold text-[#526174] uppercase tracking-wider block mb-1 font-mono">
           PURPOSE & ROLE
         </span>
-        <p className="text-xs text-slate-300 font-sans leading-relaxed p-3 rounded-lg bg-slate-950/60 border border-slate-800">
+        <p className="text-xs text-[#172033] font-sans leading-relaxed p-3 rounded-lg bg-[#F8FAFC] border border-[#D9E2EC]">
           {node.details.purpose}
         </p>
       </div>
 
       {/* Key Responsibilities */}
       <div>
-        <span className="text-[11px] text-slate-400 uppercase tracking-wider block mb-2">
+        <span className="text-[11px] font-semibold text-[#526174] uppercase tracking-wider block mb-2 font-mono">
           ENGINEERING RESPONSIBILITIES
         </span>
         <div className="space-y-1.5 font-sans text-xs">
           {node.details.responsibilities.map((resp, i) => (
-            <div key={i} className="flex items-start gap-2 text-slate-300">
-              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 mt-0.5 shrink-0" />
+            <div key={i} className="flex items-start gap-2 text-[#172033]">
+              <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 mt-0.5 shrink-0" />
               <span>{resp}</span>
             </div>
           ))}
@@ -58,16 +58,16 @@ export const ArchitectureDetails: React.FC<ArchitectureDetailsProps> = ({ node }
 
       {/* Hardware / Software Details */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
-        <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800">
-          <span className="text-[10px] text-slate-400 uppercase block mb-1">Implementation</span>
-          <span className="font-bold text-slate-200">{node.details.hardwareSoftware}</span>
+        <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#D9E2EC]">
+          <span className="text-[10px] font-semibold text-[#526174] uppercase block mb-1 font-mono">Implementation</span>
+          <span className="font-semibold text-[#172033]">{node.details.hardwareSoftware}</span>
         </div>
 
-        <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800">
-          <span className="text-[10px] text-slate-400 uppercase block mb-1">Key Interfaces</span>
+        <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#D9E2EC]">
+          <span className="text-[10px] font-semibold text-[#526174] uppercase block mb-1 font-mono">Key Interfaces</span>
           <div className="space-y-0.5">
             {node.details.keyInterfaces.map((item, i) => (
-              <span key={i} className="block text-cyan-300 text-[11px]">
+              <span key={i} className="block text-blue-700 text-[11px] font-mono">
                 • {item}
               </span>
             ))}
@@ -76,13 +76,13 @@ export const ArchitectureDetails: React.FC<ArchitectureDetailsProps> = ({ node }
       </div>
 
       {/* Data Formats */}
-      <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 text-xs">
-        <span className="text-[10px] text-slate-400 uppercase block mb-1">Supported Data Formats</span>
+      <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#D9E2EC] text-xs">
+        <span className="text-[10px] font-semibold text-[#526174] uppercase block mb-1 font-mono">Supported Data Formats</span>
         <div className="flex flex-wrap gap-1.5 mt-1">
           {node.details.dataFormats.map((fmt, i) => (
             <span
               key={i}
-              className="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300 text-[11px]"
+              className="px-2 py-0.5 rounded bg-white border border-[#D9E2EC] text-[#172033] text-[11px] font-mono shadow-2xs font-medium"
             >
               {fmt}
             </span>
@@ -91,10 +91,10 @@ export const ArchitectureDetails: React.FC<ArchitectureDetailsProps> = ({ node }
       </div>
 
       {/* Architecture Separation Callout */}
-      <div className="p-3 rounded-lg bg-blue-950/30 border border-blue-500/30 text-xs flex items-start gap-2.5">
-        <ShieldAlert className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-        <div className="font-sans text-slate-300 leading-relaxed text-[11px]">
-          <strong className="text-cyan-300 font-mono-tech block mb-0.5 uppercase">
+      <div className="p-3.5 rounded-lg bg-blue-50/70 border border-blue-200 text-xs flex items-start gap-2.5">
+        <ShieldAlert className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+        <div className="font-sans text-[#172033] leading-relaxed text-[11px]">
+          <strong className="text-blue-900 font-mono block mb-0.5 uppercase tracking-wide">
             Architectural Separation Principle:
           </strong>
           The frontend strictly interfaces with the AI REST API / Runtime. It does NOT communicate directly with the FPGA. The communication layer isolates the host from the physical SPI / DMA bus so transport protocols can be exchanged transparently.

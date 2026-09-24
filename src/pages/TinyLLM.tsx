@@ -83,7 +83,6 @@ export const TinyLLM: React.FC = () => {
         }
       );
 
-      // Add final assistant message
       const assistantMsg: ChatMessage = {
         id: 'msg-resp-' + Date.now(),
         sender: 'assistant',
@@ -131,19 +130,19 @@ export const TinyLLM: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       {/* Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#D9E2EC]">
         <div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-100 font-mono-tech tracking-tight">
-              TINY LLM
+            <h1 className="text-xl sm:text-2xl font-bold text-[#172033] tracking-tight">
+              Tiny LLM
             </h1>
-            <span className="text-xs px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono-tech font-bold">
-              QUANTIZED TRANSFORMER
+            <span className="text-xs px-2 py-0.5 rounded bg-blue-50 border border-blue-200 text-blue-700 font-medium">
+              Quantized Transformer
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[#526174] mt-1">
             Lightweight Language Model on Embedded AI Hardware (FPGA Matrix Engine)
           </p>
         </div>

@@ -11,7 +11,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#070a12] text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F4F7FA] text-[#172033] flex flex-col font-sans">
       {/* Top Banner indicating Simulation Mode vs Hardware Connected */}
       <SimulationBanner />
 

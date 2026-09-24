@@ -18,19 +18,19 @@ export const NeuralComputeEngine: React.FC = () => {
   const selectedBlock = selectedBlockId ? nceStatus.blocks[selectedBlockId] : null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       {/* Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#D9E2EC]">
         <div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-100 font-mono-tech tracking-tight">
-              NEURAL COMPUTE ENGINE
+            <h1 className="text-xl sm:text-2xl font-bold text-[#172033] tracking-tight">
+              Neural Compute Engine
             </h1>
-            <span className="text-xs px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono-tech font-bold">
-              FPGA RTL SCHEMATIC
+            <span className="text-xs px-2 py-0.5 rounded bg-blue-50 border border-blue-200 text-blue-700 font-medium">
+              FPGA RTL Schematic
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[#526174] mt-1">
             Custom Hardware Accelerator Microarchitecture & Physical Silicon Telemetry
           </p>
         </div>
@@ -38,9 +38,9 @@ export const NeuralComputeEngine: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={handleManualPulse}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 font-mono-tech text-xs transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 border border-[#D9E2EC] text-[#172033] font-medium text-xs shadow-xs transition-colors cursor-pointer"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className="w-3.5 h-3.5 text-blue-600" />
             <span>Test Diagnostic Pulse</span>
           </button>
         </div>

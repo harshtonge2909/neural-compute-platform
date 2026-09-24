@@ -29,34 +29,34 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar }) => {
 
   return (
     <>
-      <header className="h-16 bg-[#090d16]/95 border-b border-slate-800/80 px-4 flex items-center justify-between sticky top-0 z-30 backdrop-blur-md">
+      <header className="h-16 bg-white border-b border-[#D9E2EC] px-4 md:px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs">
         {/* Left Branding */}
         <div className="flex items-center gap-3">
           {onToggleSidebar && (
             <button
               onClick={onToggleSidebar}
-              className="lg:hidden p-2 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              className="lg:hidden p-2 rounded text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
             >
-              <Layers className="w-5 h-5 text-cyan-400" />
+              <Layers className="w-5 h-5 text-blue-600" />
             </button>
           )}
 
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded bg-gradient-to-br from-cyan-500/20 to-blue-600/30 border border-cyan-500/40 flex items-center justify-center tech-badge-glow">
-              <span className="font-mono-tech font-bold text-cyan-400 text-sm tracking-tighter">
+            <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center shadow-xs">
+              <span className="font-mono-tech font-bold text-white text-xs tracking-tight">
                 NCA
               </span>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-slate-100 text-sm tracking-wide">
-                  NCA PLATFORM
+                <span className="font-bold text-[#172033] text-sm tracking-tight font-sans">
+                  NCA Platform
                 </span>
-                <span className="text-[10px] font-mono-tech text-cyan-400 px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-800/40">
+                <span className="text-[11px] font-sans font-medium text-blue-700 px-1.5 py-0.2 rounded bg-blue-50 border border-blue-200">
                   v2.4
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 font-mono-tech hidden sm:block">
+              <p className="text-[11px] text-[#526174] font-sans hidden sm:block">
                 Neural Computing Architecture
               </p>
             </div>
@@ -64,7 +64,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar }) => {
         </div>
 
         {/* Center Hardware Live Telemetry Statuses */}
-        <div className="hidden xl:flex items-center gap-2.5">
+        <div className="hidden xl:flex items-center gap-2">
           <StatusBadge
             label="RISC-V"
             status={systemStatus.processorStatus}
@@ -82,14 +82,13 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar }) => {
           <StatusBadge
             label="NCE"
             status={nceStatus.acceleratorUtilization > 50 ? 'ACTIVE' : systemStatus.nceState}
-            variant={nceStatus.acceleratorUtilization > 50 ? 'cyan' : 'blue'}
-            pulse={nceStatus.acceleratorUtilization > 50}
+            variant={nceStatus.acceleratorUtilization > 50 ? 'blue' : 'green'}
             size="sm"
           />
           <StatusBadge
             label="COMM"
             status={systemStatus.communicationStatus}
-            variant="purple"
+            variant="green"
             size="sm"
           />
         </div>
@@ -97,26 +96,26 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar }) => {
         {/* Right Controls */}
         <div className="flex items-center gap-2.5">
           {/* Uptime clock */}
-          <div className="hidden md:flex items-center gap-1.5 font-mono-tech text-xs text-slate-300 bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
-            <Clock className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="text-slate-400 text-[10px]">UPTIME:</span>
+          <div className="hidden md:flex items-center gap-1.5 font-mono-tech text-xs text-[#172033] bg-slate-50 px-2.5 py-1 rounded border border-[#D9E2EC]">
+            <Clock className="w-3.5 h-3.5 text-blue-600" />
+            <span className="text-[#526174] font-sans text-[11px]">Uptime:</span>
             <span>{formatUptime(systemStatus.uptimeSeconds)}</span>
           </div>
 
           {/* Demo Mode Toggle */}
           <button
             onClick={() => setDemoMode(!demoMode)}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded font-mono-tech text-xs border transition-all ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-sans transition-all cursor-pointer ${
               demoMode
-                ? 'bg-cyan-950/80 border-cyan-500/50 text-cyan-300 tech-badge-glow'
-                : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-blue-50 border border-blue-300 text-blue-800 font-medium'
+                : 'bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-800'
             }`}
             title="Toggle simulated hardware activity generation"
           >
             {demoMode ? (
               <>
-                <Play className="w-3 h-3 text-cyan-400 fill-cyan-400" />
-                <span className="font-semibold">Demo: ON</span>
+                <Play className="w-3 h-3 text-blue-600 fill-blue-600" />
+                <span>Demo: ON</span>
               </>
             ) : (
               <>
@@ -129,20 +128,20 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar }) => {
           {/* Hardware / Simulation Mode Pill */}
           <button
             onClick={() => setHardwareMode(hardwareMode === 'simulation' ? 'hardware' : 'simulation')}
-            className={`px-2 py-1 rounded text-[11px] font-mono-tech border transition-all ${
+            className={`px-2.5 py-1 rounded text-xs font-sans font-medium border transition-all cursor-pointer ${
               hardwareMode === 'hardware'
-                ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-400'
-                : 'bg-amber-950/60 border-amber-500/40 text-amber-300'
+                ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
+                : 'bg-amber-50 border-amber-300 text-amber-900'
             }`}
             title="Toggle between Simulation and Real Hardware API"
           >
-            {hardwareMode === 'hardware' ? 'HARDWARE' : 'SIMULATION'}
+            {hardwareMode === 'hardware' ? 'Hardware Mode' : 'Simulation Mode'}
           </button>
 
           {/* Settings modal trigger */}
           <button
             onClick={() => setIsSettingsOpen(true)}
-            className="p-1.5 rounded bg-slate-900 border border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-cyan-800 transition-colors"
+            className="p-1.5 rounded bg-white border border-[#D9E2EC] text-[#526174] hover:text-[#172033] hover:bg-slate-50 transition-colors cursor-pointer"
             title="System Settings"
           >
             <Settings className="w-4 h-4" />
