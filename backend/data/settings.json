@@ -1,0 +1,33 @@
+{
+  "general": {
+    "theme": "light",
+    "logVerbosity": "INFO",
+    "autoConnectHardware": false,
+    "telemetryIntervalMs": 1000
+  },
+  "runtime": {
+    "defaultBackend": "cpu",
+    "defaultDetectionModel": "YOLOX-Nano",
+    "confidenceThreshold": 0.42,
+    "llmModelPath": "builtin",
+    "llmMaxTokens": 128,
+    "llmTemperature": 0.7,
+    "cpuThreads": 4
+  },
+  "hardware": {
+    "connectionType": "network_rest",
+    "targetHost": "192.0.2.1",
+    "targetPort": 9999,
+    "serialPort": "/dev/ttyUSB0",
+    "baudRate": 115200,
+    "spiDevice": "/dev/spidev0.0",
+    "charDevice": "/dev/nce0",
+    "timeoutMs": 3000,
+    "allowSimulationFallback": false
+  },
+  "benchmarks": {
+    "defaultRepetitions": 5,
+    "defaultWarmupRuns": 2,
+    "defaultMatrixDimension": 256
+  }
+}

@@ -17,51 +17,55 @@ export const HardwareGauges: React.FC<HardwareGaugesProps> = ({ status }) => {
             Hardware Telemetry & Physical Metrics
           </h3>
         </div>
-        <span className="text-[11px] font-sans font-medium text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
-          Sensors Online
+        <span className={`text-[11px] font-sans font-medium px-2 py-0.5 rounded border ${
+          status.isAvailable 
+            ? 'text-emerald-800 bg-emerald-50 border-emerald-200' 
+            : 'text-amber-800 bg-amber-50 border-amber-200'
+        }`}>
+          {status.isAvailable ? 'Sensors Online' : 'Hardware Disconnected'}
         </span>
       </div>
 
       {/* 4 Primary Gauges */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <Gauge
-          value={status.acceleratorUtilization}
+          value={status.acceleratorUtilization ?? 0}
           min={0}
           max={100}
           unit="%"
           label="Accelerator Load"
           color="blue"
-          sublabel="NCE Core"
+          sublabel={status.isAvailable ? "NCE Core" : "Disconnected"}
         />
 
         <Gauge
-          value={status.macUtilization}
+          value={status.macUtilization ?? 0}
           min={0}
           max={100}
           unit="%"
           label="Systolic MAC Array"
           color="blue"
-          sublabel="64×64 Grid"
+          sublabel={status.isAvailable ? "64×64 Grid" : "Disconnected"}
         />
 
         <Gauge
-          value={status.memoryUtilization}
+          value={status.memoryUtilization ?? 0}
           min={0}
           max={100}
           unit="%"
           label="SRAM Utilization"
           color="blue"
-          sublabel={`${status.onChipMemoryUsedKb} / ${status.onChipMemoryTotalKb} KB`}
+          sublabel={status.isAvailable ? `${status.onChipMemoryUsedKb} / ${status.onChipMemoryTotalKb} KB` : "1024 KB Reserved"}
         />
 
         <Gauge
-          value={status.temperatureC}
+          value={status.temperatureC ?? 0}
           min={25}
           max={85}
           unit="°C"
           label="Die Temperature"
-          color={status.temperatureC > 65 ? 'rose' : status.temperatureC > 50 ? 'amber' : 'blue'}
-          sublabel="Thermal Limit: 85°C"
+          color={status.temperatureC && status.temperatureC > 65 ? 'rose' : status.temperatureC && status.temperatureC > 50 ? 'amber' : 'blue'}
+          sublabel={status.isAvailable ? "Thermal Limit: 85°C" : "N/A (Offline)"}
         />
       </div>
 
@@ -74,8 +78,10 @@ export const HardwareGauges: React.FC<HardwareGaugesProps> = ({ status }) => {
           </div>
           <div>
             <span className="text-[10px] text-[#526174] uppercase font-medium block">Clock Frequency</span>
-            <span className="font-bold text-[#172033] text-sm font-mono-tech">{status.clockFrequencyMhz} MHz</span>
-            <span className="text-[10px] text-[#718096] block">Jitter: &lt; 0.05%</span>
+            <span className="font-bold text-[#172033] text-sm font-mono-tech">
+              {status.clockFrequencyMhz ? `${status.clockFrequencyMhz} MHz` : 'N/A'}
+            </span>
+            <span className="text-[10px] text-[#718096] block">Target: 100 MHz</span>
           </div>
         </div>
 
@@ -86,7 +92,9 @@ export const HardwareGauges: React.FC<HardwareGaugesProps> = ({ status }) => {
           </div>
           <div>
             <span className="text-[10px] text-[#526174] uppercase font-medium block">SPI / DMA Transfer</span>
-            <span className="font-bold text-blue-700 text-sm font-mono-tech">{status.dataTransferRateMBps} MB/s</span>
+            <span className="font-bold text-blue-700 text-sm font-mono-tech">
+              {status.dataTransferRateMBps ? `${status.dataTransferRateMBps} MB/s` : 'N/A'}
+            </span>
             <span className="text-[10px] text-[#718096] block">Peak: 50.0 MB/s</span>
           </div>
         </div>
@@ -98,7 +106,9 @@ export const HardwareGauges: React.FC<HardwareGaugesProps> = ({ status }) => {
           </div>
           <div>
             <span className="text-[10px] text-[#526174] uppercase font-medium block">Board Power</span>
-            <span className="font-bold text-[#172033] text-sm font-mono-tech">{status.powerEstimateWatts} W</span>
+            <span className="font-bold text-[#172033] text-sm font-mono-tech">
+              {status.powerEstimateWatts ? `${status.powerEstimateWatts} W` : 'N/A'}
+            </span>
             <span className="text-[10px] text-[#718096] block">VCC: 1.0V Core / 3.3V I/O</span>
           </div>
         </div>
@@ -110,8 +120,10 @@ export const HardwareGauges: React.FC<HardwareGaugesProps> = ({ status }) => {
           </div>
           <div>
             <span className="text-[10px] text-[#526174] uppercase font-medium block">On-Chip BRAM</span>
-            <span className="font-bold text-[#172033] text-sm font-mono-tech">{status.onChipMemoryUsedKb} KB</span>
-            <span className="text-[10px] text-[#718096] block">Cap: {status.onChipMemoryTotalKb} KB Total</span>
+            <span className="font-bold text-[#172033] text-sm font-mono-tech">
+              {status.onChipMemoryUsedKb !== null && status.onChipMemoryUsedKb !== undefined ? `${status.onChipMemoryUsedKb} KB` : '1024 KB Total'}
+            </span>
+            <span className="text-[10px] text-[#718096] block">Cap: 1024 KB Total</span>
           </div>
         </div>
       </div>

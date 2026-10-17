@@ -15,7 +15,7 @@ import { LiveMetricsPanel } from '../components/overview/LiveMetricsPanel';
 import { RuntimeLog } from '../components/common/RuntimeLog';
 
 export const Overview: React.FC = () => {
-  const { nceStatus, setActivePage, hardwareMode } = useSystem();
+  const { nceStatus, setActivePage, hardwareMode, systemStatus } = useSystem();
 
   return (
     <div className="space-y-6">
@@ -77,12 +77,12 @@ export const Overview: React.FC = () => {
         />
 
         <MetricCard
-          title="CPU Utilization"
-          value="29"
+          title="Memory Util"
+          value={Math.round((systemStatus.memoryUsageMb / Math.max(systemStatus.totalMemoryMb, 1)) * 100)}
           unit="%"
           icon={<Cpu className="w-4 h-4 text-blue-600" />}
-          trend={{ value: '↓ 65.1%', direction: 'down', isPositive: true }}
-          subtitle="Host CPU relief"
+          trend={{ value: `${systemStatus.memoryUsageMb} MB`, direction: 'neutral' }}
+          subtitle="Host RAM active"
           isSimulated={hardwareMode === 'simulation'}
         />
 
@@ -91,7 +91,7 @@ export const Overview: React.FC = () => {
           value={nceStatus.acceleratorUtilization}
           unit="%"
           icon={<Zap className="w-4 h-4 text-blue-600" />}
-          trend={{ value: 'Optimal', direction: 'neutral' }}
+          trend={nceStatus.acceleratorUtilization ? { value: 'Optimal', direction: 'neutral' } : undefined}
           subtitle="64×64 Systolic Array"
           isSimulated={hardwareMode === 'simulation'}
         />
@@ -101,17 +101,17 @@ export const Overview: React.FC = () => {
           value={nceStatus.powerEstimateWatts}
           unit="W"
           icon={<Zap className="w-4 h-4 text-blue-600" />}
-          trend={{ value: '↓ 62%', direction: 'down', isPositive: true }}
+          trend={nceStatus.powerEstimateWatts ? { value: '↓ 62%', direction: 'down', isPositive: true } : undefined}
           subtitle="Host + FPGA power"
           isSimulated={hardwareMode === 'simulation'}
         />
 
         <MetricCard
           title="Energy / Inference"
-          value="0.088"
+          value={nceStatus.powerEstimateWatts ? "0.088" : null}
           unit="J"
           icon={<BatteryCharging className="w-4 h-4 text-blue-600" />}
-          trend={{ value: '↓ 85.8%', direction: 'down', isPositive: true }}
+          trend={nceStatus.powerEstimateWatts ? { value: '↓ 85.8%', direction: 'down', isPositive: true } : undefined}
           subtitle="0.620 J CPU baseline"
           isSimulated={hardwareMode === 'simulation'}
         />

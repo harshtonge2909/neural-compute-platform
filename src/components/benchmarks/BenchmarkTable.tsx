@@ -61,39 +61,47 @@ export const BenchmarkTable: React.FC<BenchmarkTableProps> = ({ results }) => {
                       {r.backend.toUpperCase()}
                     </span>
                   </td>
-                  <td className="py-2.5 px-3 font-mono-tech text-[#172033]">
-                    {r.latencyMs} ms
-                  </td>
-                  <td className="py-2.5 px-3 font-mono-tech text-blue-700">
-                    {r.throughputFps} {r.workload === 'Tiny LLM' ? 'tok/s' : 'FPS'}
-                  </td>
-                  <td className="py-2.5 px-3 font-mono-tech text-slate-700">
-                    {r.cpuUtilization}%
-                  </td>
-                  <td className="py-2.5 px-3 font-mono-tech text-blue-700">
-                    {r.fpgaUtilization}%
-                  </td>
-                  <td className="py-2.5 px-3 font-mono-tech text-[#172033]">
-                    {r.energyJoules} J
-                  </td>
-                  <td className="py-2.5 px-3">
-                    {r.speedupFactor ? (
-                      <span className="text-emerald-700 font-semibold font-mono-tech">
-                        {r.speedupFactor}x
-                      </span>
-                    ) : (
-                      <span className="text-[#718096]">1.0x (Baseline)</span>
-                    )}
-                  </td>
-                  <td className="py-2.5 px-3 text-right">
-                    {r.energyEfficiencyGain ? (
-                      <span className="text-emerald-700 font-semibold font-mono-tech">
-                        -{r.energyEfficiencyGain}%
-                      </span>
-                    ) : (
-                      <span className="text-[#718096]">Baseline</span>
-                    )}
-                  </td>
+                  {r.isAvailable === false ? (
+                    <td colSpan={7} className="py-2.5 px-3 font-mono text-amber-800 bg-amber-50/60 rounded">
+                      ⚠️ {r.statusMessage || "Unavailable (FPGA Hardware Disconnected)"}
+                    </td>
+                  ) : (
+                    <>
+                      <td className="py-2.5 px-3 font-mono-tech text-[#172033]">
+                        {r.latencyMs} ms
+                      </td>
+                      <td className="py-2.5 px-3 font-mono-tech text-blue-700">
+                        {r.throughputFps} {r.workload === 'Tiny LLM' ? 'tok/s' : 'FPS'}
+                      </td>
+                      <td className="py-2.5 px-3 font-mono-tech text-slate-700">
+                        {r.cpuUtilization}%
+                      </td>
+                      <td className="py-2.5 px-3 font-mono-tech text-blue-700">
+                        {r.fpgaUtilization !== null && r.fpgaUtilization !== undefined ? `${r.fpgaUtilization}%` : 'N/A'}
+                      </td>
+                      <td className="py-2.5 px-3 font-mono-tech text-[#172033]">
+                        {r.energyJoules !== null && r.energyJoules !== undefined ? `${r.energyJoules} J` : 'N/A'}
+                      </td>
+                      <td className="py-2.5 px-3">
+                        {r.speedupFactor ? (
+                          <span className="text-emerald-700 font-semibold font-mono-tech">
+                            {r.speedupFactor}x
+                          </span>
+                        ) : (
+                          <span className="text-[#718096]">1.0x (Baseline)</span>
+                        )}
+                      </td>
+                      <td className="py-2.5 px-3 text-right">
+                        {r.energyEfficiencyGain ? (
+                          <span className="text-emerald-700 font-semibold font-mono-tech">
+                            -{r.energyEfficiencyGain}%
+                          </span>
+                        ) : (
+                          <span className="text-[#718096]">Baseline</span>
+                        )}
+                      </td>
+                    </>
+                  )}
                 </tr>
               );
             })}

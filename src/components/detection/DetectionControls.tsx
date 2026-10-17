@@ -68,8 +68,9 @@ export const DetectionControls: React.FC<DetectionControlsProps> = ({
           disabled={isLoading}
           className="w-full bg-white border border-[#D9E2EC] rounded-lg px-3 py-2 text-xs text-[#172033] focus:outline-none focus:border-blue-500 cursor-pointer disabled:opacity-50 font-sans"
         >
+          <option value="YOLOX-Nano">YOLOX-Nano (416×416, Genuine ONNX CPU)</option>
+          <option value="YOLOv5n">YOLOv5n (640×640, Genuine ONNX FP16)</option>
           <option value="Tiny YOLO">Tiny YOLO (416×416, INT8 Quantized)</option>
-          <option value="YOLOv8-Nano">YOLOv8-Nano (Lightweight Detector, INT8)</option>
           <option value="Lightweight Custom Detector">Lightweight Custom NCE Detector</option>
         </select>
       </div>

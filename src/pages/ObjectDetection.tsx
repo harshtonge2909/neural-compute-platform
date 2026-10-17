@@ -15,8 +15,8 @@ export const ObjectDetection: React.FC = () => {
 
   const [currentSample, setCurrentSample] = useState<SampleImage>(SAMPLE_IMAGES[0]);
   const [currentImageSrc, setCurrentImageSrc] = useState<string>(SAMPLE_IMAGES[0].url);
-  const [model, setModel] = useState<'Tiny YOLO' | 'YOLOv8-Nano' | 'Lightweight Custom Detector'>('Tiny YOLO');
-  const [backend, setBackend] = useState<'cpu' | 'fpga'>('fpga');
+  const [model, setModel] = useState<any>('YOLOX-Nano');
+  const [backend, setBackend] = useState<'cpu' | 'fpga'>('cpu');
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activeStage, setActiveStage] = useState<string>('');

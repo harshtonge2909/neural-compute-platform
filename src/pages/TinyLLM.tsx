@@ -12,7 +12,7 @@ import { RuntimeLog } from '../components/common/RuntimeLog';
 export const TinyLLM: React.FC = () => {
   const { hardwareMode, addLog, triggerNCEPulse, setIsInferring } = useSystem();
 
-  const [model, setModel] = useState<'TinyLlama-1.1B' | 'Custom Tiny LLM (INT8)' | 'Lightweight Transformer'>('TinyLlama-1.1B');
+  const [model, setModel] = useState<any>('Built-in Micro Transformer (INT8)');
   const [inputText, setInputText] = useState<string>('Explain how FPGA acceleration improves neural network inference.');
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [activeStage, setActiveStage] = useState<string>('');
@@ -107,6 +107,7 @@ export const TinyLLM: React.FC = () => {
     setIsGenerating(false);
     setIsInferring(false);
     setActiveStage('');
+    getBackend(hardwareMode).stopLLM?.();
     if (currentStreamingText) {
       setMessages(prev => [
         ...prev,

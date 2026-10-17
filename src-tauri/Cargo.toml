@@ -1,0 +1,15 @@
+[package]
+name = "neural-compute-platform"
+version = "2.4.0"
+description = "Neural Computing Architecture Linux Desktop Application"
+authors = ["NCA Engineering Team"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2.0.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.0.0", features = [] }
+tauri-plugin-shell = "2.0.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"

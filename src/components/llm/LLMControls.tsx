@@ -39,6 +39,7 @@ export const LLMControls: React.FC<LLMControlsProps> = ({
           disabled={disabled}
           className="w-full bg-white border border-[#D9E2EC] rounded-lg px-3 py-2 text-xs text-[#172033] focus:outline-none focus:border-blue-500 cursor-pointer disabled:opacity-50"
         >
+          <option value="Built-in Micro Transformer (INT8)">Built-in Micro Transformer (INT8, Local CPU Engine)</option>
           <option value="TinyLlama-1.1B">TinyLlama-1.1B (INT8 Quantized, 2048 Context)</option>
           <option value="Custom Tiny LLM (INT8)">Custom Tiny LLM (Transformer Decoder, INT8)</option>
           <option value="Lightweight Transformer">Lightweight Transformer (350M, INT8)</option>

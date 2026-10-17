@@ -3,7 +3,7 @@ import { ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 
 interface MetricCardProps {
   title: string;
-  value: string | number;
+  value: string | number | null | undefined;
   unit?: string;
   icon?: ReactNode;
   trend?: {
@@ -28,6 +28,9 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   isSimulated = true,
   className = '',
 }) => {
+  const displayValue = (value === null || value === undefined) ? 'N/A' : value;
+  const showUnit = unit && displayValue !== 'N/A';
+
   return (
     <div
       className={`bg-white rounded-lg p-4 border border-[#D9E2EC] shadow-xs flex flex-col justify-between transition-all hover:border-slate-300 ${className}`}
@@ -49,9 +52,9 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 
       <div className="flex items-baseline gap-1.5 my-1">
         <span className="text-2xl lg:text-3xl font-bold font-mono-tech text-[#172033] tracking-tight">
-          {value}
+          {displayValue}
         </span>
-        {unit && (
+        {showUnit && (
           <span className="text-xs font-mono-tech text-[#526174]">
             {unit}
           </span>

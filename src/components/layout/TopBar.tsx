@@ -81,8 +81,8 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar }) => {
           />
           <StatusBadge
             label="NCE"
-            status={nceStatus.acceleratorUtilization > 50 ? 'ACTIVE' : systemStatus.nceState}
-            variant={nceStatus.acceleratorUtilization > 50 ? 'blue' : 'green'}
+            status={(nceStatus.acceleratorUtilization && nceStatus.acceleratorUtilization > 50) ? 'ACTIVE' : systemStatus.nceState}
+            variant={(nceStatus.acceleratorUtilization && nceStatus.acceleratorUtilization > 50) ? 'blue' : (systemStatus.fpgaStatus === 'ONLINE' ? 'green' : 'amber')}
             size="sm"
           />
           <StatusBadge

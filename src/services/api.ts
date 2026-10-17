@@ -21,7 +21,7 @@ import {
   BENCHMARK_HISTORY
 } from '../data/mockData';
 
-let apiBaseUrl = 'http://localhost:8080';
+let apiBaseUrl = 'http://127.0.0.1:8000';
 
 export const setApiBaseUrl = (url: string) => {
   apiBaseUrl = url.replace(/\/$/, '');
@@ -38,7 +38,6 @@ export class MockAIBackend implements AIBackend {
   private logs: LogEntry[] = [...INITIAL_LOGS];
 
   async getSystemStatus(): Promise<SystemStatus> {
-    // Add realistic subtle jitter
     const cpuJitter = (Math.random() - 0.5) * 1.5;
     const fpgaJitter = (Math.random() - 0.5) * 1.2;
     return {
@@ -53,8 +52,8 @@ export class MockAIBackend implements AIBackend {
     const jitter = (Math.random() - 0.5) * 4;
     return {
       ...this.nceStatus,
-      macUtilization: Math.max(10, Math.min(95, +(this.nceStatus.macUtilization + jitter).toFixed(0))),
-      acceleratorUtilization: Math.max(15, Math.min(95, +(this.nceStatus.acceleratorUtilization + jitter).toFixed(0))),
+      macUtilization: Math.max(10, Math.min(95, +(this.nceStatus.macUtilization! + jitter).toFixed(0))),
+      acceleratorUtilization: Math.max(15, Math.min(95, +(this.nceStatus.acceleratorUtilization! + jitter).toFixed(0))),
       powerEstimateWatts: +(4.6 + (Math.random() - 0.5) * 0.4).toFixed(2),
       dataTransferRateMBps: +(42.5 + (Math.random() - 0.5) * 2.0).toFixed(1),
     };
@@ -96,7 +95,6 @@ export class MockAIBackend implements AIBackend {
       await new Promise(r => setTimeout(r, step.delay));
     }
 
-    // Find sample detections matching source or fallback to pedestrian scene
     let detections = SAMPLE_IMAGES[0].defaultDetections;
     for (const sample of SAMPLE_IMAGES) {
       if (input.imageSource.includes(sample.id) || input.imageSource.includes(sample.category) || input.imageSource === sample.url) {
@@ -105,7 +103,6 @@ export class MockAIBackend implements AIBackend {
       }
     }
 
-    // Jitter metrics based on backend
     if (isFpga) {
       const nceExec = +(13.5 + (Math.random() - 0.5) * 0.8).toFixed(1);
       const preProc = +(2.1 + (Math.random() - 0.5) * 0.3).toFixed(1);
@@ -129,7 +126,6 @@ export class MockAIBackend implements AIBackend {
         isSimulated: true
       };
     } else {
-      // CPU Only execution
       const cpuExec = +(134.0 + (Math.random() - 0.5) * 6.0).toFixed(1);
       const preProc = +(3.2 + (Math.random() - 0.5) * 0.5).toFixed(1);
       const postProc = +(5.4 + (Math.random() - 0.5) * 0.8).toFixed(1);
@@ -141,7 +137,7 @@ export class MockAIBackend implements AIBackend {
         totalObjects: detections.length,
         inferenceTimeMs: totalLat,
         preProcessingMs: preProc,
-        nceExecutionMs: 0, // No NCE
+        nceExecutionMs: 0,
         postProcessingMs: postProc,
         fps,
         cpuUtilization: Math.round(93 + Math.random() * 5),
@@ -165,12 +161,11 @@ export class MockAIBackend implements AIBackend {
     if (onStage) onStage('Tensor preparation');
     await new Promise(r => setTimeout(r, 150));
 
-    if (onStage) onStage('FPGA execution');
+    if (onStage) onStage('Execution');
     await new Promise(r => setTimeout(r, 180));
 
     if (onStage) onStage('Token generation');
 
-    // Find preset matching prompt or generate technical answer
     let targetResponse = '';
     const matchedPreset = LLM_PRESETS.find(p => 
       input.prompt.toLowerCase().includes(p.prompt.toLowerCase().substring(0, 15)) ||
@@ -180,7 +175,7 @@ export class MockAIBackend implements AIBackend {
     if (matchedPreset) {
       targetResponse = matchedPreset.response;
     } else {
-      targetResponse = `The Neural Computing Architecture (NCA) accelerator efficiently handles this query using hardware-optimized INT8 quantization on the Milk-V Mars RISC-V host. 
+      targetResponse = `The Neural Computing Architecture (NCA) accelerator efficiently processes this query using hardware-optimized INT8 quantization on the Milk-V Mars RISC-V host. 
 
 Regarding "${input.prompt.trim()}":
 The host StarFive JH7110 RISC-V CPU offloads compute-heavy transformer linear projections and attention matrix multiplications directly to the 64x64 Systolic MAC Array in the FPGA Neural Compute Engine (NCE). 
@@ -188,7 +183,6 @@ The host StarFive JH7110 RISC-V CPU offloads compute-heavy transformer linear pr
 By leveraging on-chip SRAM double-buffering, data movement overhead is minimized, sustaining ~18.7 tokens/sec throughput at under 4.8W total board power.`;
     }
 
-    // Stream tokens
     const words = targetResponse.split(' ');
     let currentText = '';
     const startTime = Date.now();
@@ -197,7 +191,6 @@ By leveraging on-chip SRAM double-buffering, data movement overhead is minimized
       const piece = (i === 0 ? '' : ' ') + words[i];
       currentText += piece;
       if (onToken) onToken(piece, currentText);
-      // Realistic token delay ~40-60ms per word
       await new Promise(r => setTimeout(r, 45 + Math.random() * 25));
     }
 
@@ -236,7 +229,6 @@ By leveraging on-chip SRAM double-buffering, data movement overhead is minimized
       await new Promise(r => setTimeout(r, 260));
     }
 
-    // Match or compute benchmark numbers
     const existing = BENCHMARK_HISTORY.find(b => b.workload === input.workload && b.backend === input.backend);
     if (existing) {
       const jitter = (Math.random() - 0.5) * 0.05;
@@ -249,7 +241,6 @@ By leveraging on-chip SRAM double-buffering, data movement overhead is minimized
       };
     }
 
-    // Fallback benchmark calculation
     return {
       id: 'bm-' + Date.now(),
       timestamp: new Date().toLocaleTimeString(),
@@ -273,7 +264,7 @@ By leveraging on-chip SRAM double-buffering, data movement overhead is minimized
 }
 
 /**
- * RealAIBackend: Makes actual HTTP/REST calls to the Milk-V Mars backend when hardware is connected.
+ * RealAIBackend: Makes actual HTTP/REST calls to the Python FastAPI backend.
  */
 export class RealAIBackend implements AIBackend {
   async getSystemStatus(): Promise<SystemStatus> {
@@ -282,39 +273,87 @@ export class RealAIBackend implements AIBackend {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch {
-      // Fallback gracefully if hardware is disconnected unexpectedly
-      console.warn('RealAIBackend: Failed to reach hardware, falling back to cached status');
-      return { ...INITIAL_SYSTEM_STATUS, communicationStatus: 'DISCONNECTED', nceState: 'IDLE' };
+      return { 
+        ...INITIAL_SYSTEM_STATUS, 
+        communicationStatus: 'DISCONNECTED', 
+        nceState: 'IDLE',
+        fpgaStatus: 'OFFLINE',
+        fpgaTemperatureC: null,
+      };
     }
   }
 
   async getNCEStatus(): Promise<NCEStatus> {
-    const res = await fetch(`${apiBaseUrl}/api/nce/status`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
+    try {
+      const res = await fetch(`${apiBaseUrl}/api/nce/status`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch {
+      return {
+        ...INITIAL_NCE_STATUS,
+        isAvailable: false,
+        statusMessage: 'Backend unreachable / Disconnected',
+        macUtilization: null,
+        acceleratorUtilization: null,
+        temperatureC: null,
+        powerEstimateWatts: null
+      };
+    }
   }
 
   async getMetricsHistory(): Promise<MetricSnapshot[]> {
-    const res = await fetch(`${apiBaseUrl}/api/metrics`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
+    try {
+      const res = await fetch(`${apiBaseUrl}/api/metrics`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch {
+      return [];
+    }
   }
 
   async runObjectDetection(
     input: DetectionInput,
     onProgress?: (stage: string, percent: number) => void
   ): Promise<DetectionResult> {
-    if (onProgress) onProgress('Sending inference request to Milk-V Mars...', 30);
+    if (onProgress) onProgress('Sending inference request to edge daemon...', 30);
     const res = await fetch(`${apiBaseUrl}/api/detection/infer`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(input)
     });
-    if (onProgress) onProgress('Processing NCE results...', 80);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (onProgress) onProgress('Processing detection tensors...', 80);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: `HTTP ${res.status}` }));
+      throw new Error(err.detail || `HTTP ${res.status}`);
+    }
     const data: DetectionResult = await res.json();
     data.isSimulated = false;
     if (onProgress) onProgress('Inference complete', 100);
+    return data;
+  }
+
+  async uploadDetectionImage(
+    file: File,
+    modelName: string,
+    backend: string,
+    confidenceThreshold: number = 0.35
+  ): Promise<DetectionResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('modelName', modelName);
+    formData.append('backend', backend);
+    formData.append('confidenceThreshold', confidenceThreshold.toString());
+
+    const res = await fetch(`${apiBaseUrl}/api/detection/upload`, {
+      method: 'POST',
+      body: formData
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: `HTTP ${res.status}` }));
+      throw new Error(err.detail || `HTTP ${res.status}`);
+    }
+    const data: DetectionResult = await res.json();
+    data.isSimulated = false;
     return data;
   }
 
@@ -323,37 +362,97 @@ export class RealAIBackend implements AIBackend {
     onToken?: (token: string, currentText: string) => void,
     onStage?: (stage: string) => void
   ): Promise<LLMResult> {
-    if (onStage) onStage('Connecting to LLM runtime...');
+    if (onStage) onStage('Connecting to local LLM runtime...');
     const res = await fetch(`${apiBaseUrl}/api/llm/generate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(input)
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: `HTTP ${res.status}` }));
+      throw new Error(err.detail || `HTTP ${res.status}`);
+    }
     const data: LLMResult = await res.json();
     data.isSimulated = false;
     if (onToken) onToken(data.text, data.text);
     return data;
   }
 
+  async stopLLM(): Promise<void> {
+    await fetch(`${apiBaseUrl}/api/llm/stop`, { method: 'POST' }).catch(() => {});
+  }
+
   async runBenchmark(
     input: BenchmarkInput,
     onProgress?: (percent: number, currentMsg: string) => void
   ): Promise<BenchmarkResult> {
-    if (onProgress) onProgress(40, 'Executing embedded hardware benchmark on RISC-V/FPGA...');
+    if (onProgress) onProgress(40, `Executing real ${input.workload} benchmark on ${input.backend.toUpperCase()}...`);
     const res = await fetch(`${apiBaseUrl}/api/benchmark/run`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(input)
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: `HTTP ${res.status}` }));
+      throw new Error(err.detail || `HTTP ${res.status}`);
+    }
     const data: BenchmarkResult = await res.json();
     data.isSimulated = false;
     return data;
   }
 
-  async getLogs(): Promise<LogEntry[]> {
-    const res = await fetch(`${apiBaseUrl}/api/logs`);
+  async getLogs(limit: number = 100, level?: string, module?: string): Promise<LogEntry[]> {
+    let url = `${apiBaseUrl}/api/logs?limit=${limit}`;
+    if (level) url += `&level=${level}`;
+    if (module) url += `&module=${module}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  }
+
+  async clearLogs(): Promise<void> {
+    await fetch(`${apiBaseUrl}/api/logs/clear`, { method: 'POST' }).catch(() => {});
+  }
+
+  async listDevices(): Promise<any[]> {
+    const res = await fetch(`${apiBaseUrl}/api/devices`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  }
+
+  async connectDevice(deviceId: string, params?: any): Promise<any> {
+    const res = await fetch(`${apiBaseUrl}/api/devices/connect`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deviceId, parameters: params })
+    });
+    return await res.json();
+  }
+
+  async disconnectDevice(deviceId: string): Promise<any> {
+    const res = await fetch(`${apiBaseUrl}/api/devices/${deviceId}/disconnect`, {
+      method: 'POST'
+    });
+    return await res.json();
+  }
+
+  async testLoopback(): Promise<any> {
+    const res = await fetch(`${apiBaseUrl}/api/devices/loopback`, { method: 'POST' });
+    return await res.json();
+  }
+
+  async getSettings(): Promise<any> {
+    const res = await fetch(`${apiBaseUrl}/api/settings`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  }
+
+  async updateSettings(settings: any): Promise<any> {
+    const res = await fetch(`${apiBaseUrl}/api/settings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(settings)
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   }
@@ -365,3 +464,5 @@ const realBackend = new RealAIBackend();
 export const getBackend = (mode: HardwareConnectionMode): AIBackend => {
   return mode === 'hardware' ? realBackend : mockBackend;
 };
+export { mockBackend, realBackend };
+

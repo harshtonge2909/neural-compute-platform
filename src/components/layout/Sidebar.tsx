@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   LayoutDashboard, 
   Scan, 
@@ -6,6 +5,9 @@ import {
   Cpu, 
   BarChart3, 
   Network, 
+  Sliders,
+  FileText,
+  Info,
   X,
 } from 'lucide-react';
 import { NavPage, useSystem } from '../../context/SystemContext';
@@ -16,7 +18,7 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  const { activePage, setActivePage, hardwareMode } = useSystem();
+  const { activePage, setActivePage, hardwareMode, backendConnected } = useSystem();
 
   const navItems: { id: NavPage; label: string; icon: React.ReactNode; badge?: string }[] = [
     {
@@ -43,6 +45,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       badge: 'FPGA',
     },
     {
+      id: 'settings',
+      label: 'Device & Settings',
+      icon: <Sliders className="w-4 h-4" />,
+      badge: 'CONFIG',
+    },
+    {
       id: 'benchmarks',
       label: 'Benchmarks',
       icon: <BarChart3 className="w-4 h-4" />,
@@ -52,6 +60,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       id: 'architecture',
       label: 'System Architecture',
       icon: <Network className="w-4 h-4" />,
+    },
+    {
+      id: 'logs',
+      label: 'Logs & Diagnostics',
+      icon: <FileText className="w-4 h-4" />,
+    },
+    {
+      id: 'about',
+      label: 'About',
+      icon: <Info className="w-4 h-4" />,
     },
   ];
 

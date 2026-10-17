@@ -54,7 +54,7 @@ export const LiveMetricsPanel: React.FC = () => {
           latency: latJitter,
           fps: fpsJitter,
           cpu: Math.round(isInferring ? 32 + Math.random() * 4 : 26 + Math.random() * 5),
-          fpga: nceStatus.acceleratorUtilization,
+          fpga: nceStatus.acceleratorUtilization ?? 0,
         };
 
         const updated = [...prev.slice(1), newPoint];

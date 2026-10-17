@@ -3,7 +3,8 @@ import {
   HardwareConnectionMode, 
   SystemStatus, 
   NCEStatus, 
-  LogEntry 
+  LogEntry,
+  NavPage 
 } from '../types';
 import { 
   INITIAL_SYSTEM_STATUS, 
@@ -11,8 +12,9 @@ import {
   INITIAL_LOGS 
 } from '../data/mockData';
 import { createLogEntry, generateDemoJitter } from '../services/system';
+import { realBackend, setApiBaseUrl as updateApiBaseUrl } from '../services/api';
 
-export type NavPage = 'overview' | 'detection' | 'llm' | 'nce' | 'benchmarks' | 'architecture';
+export type { NavPage };
 
 interface SystemContextType {
   activePage: NavPage;
@@ -31,27 +33,40 @@ interface SystemContextType {
   triggerNCEPulse: (blockIds?: string[]) => void;
   apiBaseUrl: string;
   setApiBaseUrl: (url: string) => void;
+  refreshTelemetry: () => Promise<void>;
+  backendConnected: boolean;
 }
 
 const SystemContext = createContext<SystemContextType | undefined>(undefined);
 
 export const SystemProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [activePage, setActivePage] = useState<NavPage>('overview');
-  const [hardwareMode, setHardwareMode] = useState<HardwareConnectionMode>('simulation');
-  const [demoMode, setDemoMode] = useState<boolean>(true);
+  const [hardwareMode, setHardwareMode] = useState<HardwareConnectionMode>('hardware');
+  const [demoMode, setDemoMode] = useState<boolean>(false);
   const [isInferring, setIsInferring] = useState<boolean>(false);
   const [systemStatus, setSystemStatus] = useState<SystemStatus>(INITIAL_SYSTEM_STATUS);
   const [nceStatus, setNceStatus] = useState<NCEStatus>(INITIAL_NCE_STATUS);
   const [logs, setLogs] = useState<LogEntry[]>(INITIAL_LOGS);
-  const [apiBaseUrl, setApiBaseUrlState] = useState<string>('http://192.168.1.120:8080');
+  const [apiBaseUrl, setApiBaseUrlState] = useState<string>('http://127.0.0.1:8000');
+  const [backendConnected, setBackendConnected] = useState<boolean>(false);
+
+  const handleSetApiBaseUrl = useCallback((url: string) => {
+    setApiBaseUrlState(url);
+    updateApiBaseUrl(url);
+  }, []);
 
   const addLog = useCallback((module: LogEntry['module'], level: LogEntry['level'], message: string) => {
     const entry = createLogEntry(module, level, message);
-    setLogs(prev => [entry, ...prev.slice(0, 99)]);
+    setLogs(prev => [entry, ...prev.slice(0, 199)]);
   }, []);
 
-  const clearLogs = useCallback(() => {
+  const clearLogs = useCallback(async () => {
     setLogs([]);
+    try {
+      await realBackend.clearLogs();
+    } catch {
+      // ignore
+    }
   }, []);
 
   const triggerNCEPulse = useCallback((blockIds?: string[]) => {
@@ -78,7 +93,6 @@ export const SystemProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       };
     });
 
-    // Revert back after 1.8s
     setTimeout(() => {
       setNceStatus(prev => {
         const updated = { ...prev.blocks };
@@ -86,42 +100,63 @@ export const SystemProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           updated[id] = {
             ...updated[id],
             status: 'IDLE',
-            activityPercentage: Math.round(15 + Math.random() * 15)
+            activityPercentage: 0
           };
         });
         return {
           ...prev,
-          acceleratorUtilization: 28,
-          macUtilization: 25,
+          acceleratorUtilization: prev.isAvailable ? 15 : null,
+          macUtilization: prev.isAvailable ? 10 : null,
           blocks: updated
         };
       });
     }, 1800);
   }, []);
 
-  // Demo mode ticker & uptime counter
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setSystemStatus(prev => ({
-        ...prev,
-        uptimeSeconds: prev.uptimeSeconds + 1
-      }));
+  const refreshTelemetry = useCallback(async () => {
+    try {
+      const [sys, nce, logList] = await Promise.all([
+        realBackend.getSystemStatus(),
+        realBackend.getNCEStatus(),
+        realBackend.getLogs(50)
+      ]);
+      setSystemStatus(sys);
+      setNceStatus(nce);
+      setBackendConnected(true);
+      if (logList && logList.length > 0) {
+        setLogs(logList);
+      }
+    } catch {
+      setBackendConnected(false);
+    }
+  }, []);
 
-      if (demoMode) {
+  // Poll real backend telemetry every 2 seconds when in hardware mode
+  useEffect(() => {
+    if (hardwareMode === 'hardware') {
+      refreshTelemetry();
+      const interval = setInterval(refreshTelemetry, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [hardwareMode, refreshTelemetry]);
+
+  // Demo mode jitter ticker when explicitly opted into simulation
+  useEffect(() => {
+    if (demoMode) {
+      const timer = setInterval(() => {
         setSystemStatus(currSys => {
           setNceStatus(currNCE => {
             const { updatedStatus, updatedNCE, newLog } = generateDemoJitter(currSys, currNCE, isInferring);
             if (newLog) {
-              setLogs(prevLogs => [newLog, ...prevLogs.slice(0, 99)]);
+              setLogs(prevLogs => [newLog, ...prevLogs.slice(0, 199)]);
             }
             return updatedNCE;
           });
           return currSys;
         });
-      }
-    }, 1000);
-
-    return () => clearInterval(timer);
+      }, 1000);
+      return () => clearInterval(timer);
+    }
   }, [demoMode, isInferring]);
 
   return (
@@ -142,7 +177,9 @@ export const SystemProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         clearLogs,
         triggerNCEPulse,
         apiBaseUrl,
-        setApiBaseUrl: setApiBaseUrlState,
+        setApiBaseUrl: handleSetApiBaseUrl,
+        refreshTelemetry,
+        backendConnected
       }}
     >
       {children}

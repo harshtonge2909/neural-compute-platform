@@ -7,6 +7,9 @@ import { TinyLLM } from './pages/TinyLLM';
 import { NeuralComputeEngine } from './pages/NeuralComputeEngine';
 import { Benchmarks } from './pages/Benchmarks';
 import { SystemArchitecture } from './pages/SystemArchitecture';
+import { DeviceSettings } from './pages/DeviceSettings';
+import { LogsDiagnostics } from './pages/LogsDiagnostics';
+import { About } from './pages/About';
 
 const AppContent: React.FC = () => {
   const { activePage } = useSystem();
@@ -17,8 +20,11 @@ const AppContent: React.FC = () => {
       {activePage === 'detection' && <ObjectDetection />}
       {activePage === 'llm' && <TinyLLM />}
       {activePage === 'nce' && <NeuralComputeEngine />}
+      {activePage === 'settings' && <DeviceSettings />}
       {activePage === 'benchmarks' && <Benchmarks />}
       {activePage === 'architecture' && <SystemArchitecture />}
+      {activePage === 'logs' && <LogsDiagnostics />}
+      {activePage === 'about' && <About />}
     </Layout>
   );
 };
