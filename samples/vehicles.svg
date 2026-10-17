@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="vSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="highway" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <pattern id="vGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(56, 189, 248, 0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#vSky)" />
+  <rect width="800" height="500" fill="url(#vGrid)" />
+
+  <!-- Mountain silhouette -->
+  <polygon points="0,260 120,200 240,250 400,180 580,240 700,210 800,250 800,300 0,300" fill="#131c2e" />
+  
+  <!-- Highway Road -->
+  <polygon points="260,250 540,250 800,500 0,500" fill="url(#highway)" />
+  <!-- Center dashed line -->
+  <line x1="400" y1="250" x2="400" y2="500" stroke="#f59e0b" stroke-width="4" stroke-dasharray="25,20" />
+  <!-- Side lane lines -->
+  <line x1="330" y1="250" x2="160" y2="500" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="15,15" opacity="0.6"/>
+  <line x1="470" y1="250" x2="640" y2="500" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="15,15" opacity="0.6"/>
+
+  <!-- Left Vehicle: Blue Sedan [x: 100, y: 320, w: 220, h: 120] -->
+  <g id="car_left" transform="translate(110, 310)">
+    <!-- Shadow -->
+    <ellipse cx="100" cy="120" rx="100" ry="16" fill="#000000" opacity="0.6"/>
+    <!-- Car Body -->
+    <path d="M 10 90 L 30 50 L 80 40 L 140 40 L 180 65 L 195 90 L 195 105 L 10 105 Z" fill="#0284c7" />
+    <path d="M 35 52 L 80 44 L 80 75 L 25 75 Z" fill="#38bdf8" opacity="0.8"/> <!-- Rear window -->
+    <path d="M 85 44 L 135 44 L 165 65 L 85 65 Z" fill="#38bdf8" opacity="0.8"/> <!-- Front window -->
+    <!-- Headlights & Taillights -->
+    <rect x="190" y="85" width="6" height="12" rx="2" fill="#fef08a" />
+    <rect x="8" y="85" width="5" height="12" rx="2" fill="#ef4444" />
+    <!-- Wheels -->
+    <circle cx="50" cy="108" r="18" fill="#1e293b" stroke="#64748b" stroke-width="4"/>
+    <circle cx="155" cy="108" r="18" fill="#1e293b" stroke="#64748b" stroke-width="4"/>
+  </g>
+
+  <!-- Right Vehicle: White SUV [x: 480, y: 280, w: 250, h: 150] -->
+  <g id="suv_right" transform="translate(480, 275)">
+    <!-- Shadow -->
+    <ellipse cx="120" cy="140" rx="115" ry="18" fill="#000000" opacity="0.6"/>
+    <!-- SUV Body -->
+    <path d="M 15 110 L 25 45 L 90 40 L 165 40 L 215 70 L 235 110 L 235 125 L 15 125 Z" fill="#f1f5f9" />
+    <path d="M 32 50 L 85 45 L 85 80 L 28 80 Z" fill="#475569" opacity="0.85"/>
+    <path d="M 92 45 L 160 45 L 200 70 L 92 70 Z" fill="#475569" opacity="0.85"/>
+    <!-- Lights -->
+    <rect x="230" y="98" width="6" height="14" rx="2" fill="#fef08a" />
+    <rect x="12" y="98" width="6" height="14" rx="2" fill="#ef4444" />
+    <!-- Wheels -->
+    <circle cx="60" cy="128" r="22" fill="#0f172a" stroke="#94a3b8" stroke-width="5"/>
+    <circle cx="185" cy="128" r="22" fill="#0f172a" stroke="#94a3b8" stroke-width="5"/>
+  </g>
+
+  <!-- Distant Truck (Center lane far) [x: 370, y: 220, w: 65, h: 45] -->
+  <g id="truck_far" transform="translate(372, 222)">
+    <rect x="0" y="5" width="45" height="30" fill="#e2e8f0" />
+    <rect x="42" y="15" width="16" height="20" fill="#f59e0b" />
+    <circle cx="12" cy="36" r="5" fill="#1e293b"/>
+    <circle cx="34" cy="36" r="5" fill="#1e293b"/>
+    <circle cx="50" cy="36" r="5" fill="#1e293b"/>
+  </g>
+
+  <!-- HUD overlay elements -->
+  <text x="30" y="40" fill="#38bdf8" font-family="monospace" font-size="14" font-weight="bold">FEED: CAM-04 [HIGHWAY_EAST_JUNCTION]</text>
+  <text x="30" y="60" fill="#94a3b8" font-family="monospace" font-size="11">RES: 1920x1080@60FPS | AUTONOMOUS PERCEPTION</text>
+  <text x="630" y="40" fill="#10b981" font-family="monospace" font-size="12" font-weight="bold">● LIVE STREAM</text>
+
+  <!-- Corner targeting brackets -->
+  <path d="M 20 20 L 40 20 M 20 20 L 20 40" stroke="#0284c7" stroke-width="2" fill="none"/>
+  <path d="M 780 20 L 760 20 M 780 20 L 780 40" stroke="#0284c7" stroke-width="2" fill="none"/>
+  <path d="M 20 480 L 40 480 M 20 480 L 20 460" stroke="#0284c7" stroke-width="2" fill="none"/>
+  <path d="M 780 480 L 760 480 M 780 480 L 780 460" stroke="#0284c7" stroke-width="2" fill="none"/>
+</svg>
